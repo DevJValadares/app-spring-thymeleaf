@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layout :: head}">
+</head>
+
+<body style="padding-left: 350px; padding-right: 200px;font-family: sans-serif;">
+	<div th:replace="~{layout :: menu}"></div>
+	<div class="col s12" style="background-color: darkcyan;">
+		<h3 style="text-align: center; color: whitesmoke;">Cadastro de Pessoas</h3>
+	</div>
+	<div class="col s12 m4 l8">
+		<div class="row">
+			<div th:each="m : ${msg}" class="alert">
+				<span class="closebtn" th:text="${m}"></span>
+			</div>
+			<br />
+
+			<form action="/salvarpessoa" id="formpessoa" method="post" th:object="${pessoaobj}" class="col s12"
+				enctype="multipart/form-data">
+
+				<div class="input-fiel col s12">
+					<div class="input-fiel col s1">
+						<label for="id" class="active">ID</label>
+						<input name="id" id="id" th:field="*{id}" readonly="readonly">
+					</div>
+				</div>
+				<div class="input-fiel col s12">
+					<div class="input-field col s6">
+						<label for="nome" class="active">Nome</label>
+						<input name="nome" id="nome" th:field="*{nome}" type="text" class="validate">
+
+					</div>
+
+					<div class="input-field col s6">
+						<label for="sobrenome" class="active">Sobrenome</label>
+						<input name="sobrenome" id="sobrenome" th:field="*{sobrenome}" type="text" class="validate">
+					</div>
+				</div>
+
+				<div class="input-fiel col s12">
+					<!--<div class="input-field col s6">
+					<label for="idade" class="active">Idade</label>
+					<input type="number" name="idade" id="idade" th:field="*{idade}" class="validate">
+				</div> !-->
+					<div class="input-field col s6">
+						<label for="dataNascimento" class="active">Data Nascimento</label>
+						<br />
+						<input type="date" id="dataNascimento" th:field="*{dataNascimento}" name="dataNascimento">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="sexo" class="active" style="font-size: 20px;">Sexo</label>
+						<br />
+						<select id="sexo" name="sexo" class="browser-default" th:field="*{sexo}">
+							<option value="" disabled selected>Selecione...</option>
+							<option value="MASCULINO" th:text="Masculino" />
+							<option value="FEMININO" th:text="Feminino" />
+						</select>
+					</div>
+				</div>
+				<div class="input-fiel col s12">
+					<div class="input-field col s6">
+						<label for="cep" class="active">Cep</label>
+						<input name="cep" id="cep" th:field="*{cep}" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="rua" class="active">Rua</label>
+						<input name="rua" id="rua" th:field="*{rua}" class="validate">
+					</div>
+				</div>
+
+				<div class="input-fiel col s12">
+					<div class="input-field col s6">
+						<label for="bairro" class="active">Bairro</label>
+						<input name="bairro" id="bairro" th:field="*{bairro}" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="cidade" class="active">Cidade</label>
+						<input name="cidade" id="cidade" th:field="*{cidade}" class="validate">
+					</div>
+				</div>
+
+				<div class="input-fiel col s12">
+					<div class="input-field col s6">
+						<label for="uf" class="active">Estado</label>
+						<input name="uf" id="uf" th:field="*{uf}" class="validate">
+					</div>
+
+					<div class="input-field col s6">
+						<label for="ibge" class="active">Ibge</label>
+						<input name="ibge" id="ibge" th:field="*{ibge}" class="validate">
+					</div>
+				</div>
+
+				<div class="input-fiel col s12">
+					<div class="input-field col s6">
+						<label for="profissao" class="active" style="font-size: 20px;">Profissão</label>
+						<br />
+						<select class="browser-default" th:field="*{profissao}" id="profissao">
+							<option value="" disabled selected>Selecione...</option>
+							<option th:each="p : ${profissoes}" th:value="${p.id}" th:text="${p.nome}">
+						</select>
+					</div>
+					<div class="input-field col s6">
+						<label for="cargo" class="active" style="font-size: 20px;">Nível</label>
+						<br />
+						<select class="browser-default" th:field="*{cargo}" id="cargo">
+							<option value="" disabled selected>Selecione...</option>
+							<option th:each="c : ${T(br.com.appspringthymeleaf.model.Cargo).values()}" th:value="${c}"
+								th:text="${c.valor}">
+						</select>
+					</div>
+				</div>
+
+
+				<div class="input-field col s6">
+					<div class="row">
+						
+							<label for="file" class="active"
+								style="font-size: 17px; padding-left: 20px;">Currículo:</label>
+							<input type="file" id="file" name="file" class="validate">
+						
+					</div>
+				</div>
+
+				<br />
+
+				<div class="col s9">
+					<button class="btn waves-effect waves-light" type="submit">Salvar
+						<i class="material-icons right">save</i>
+					</button>
+					<a class="waves-effect waves-light btn" href="/cadastropessoa">Novo<i
+							class="material-icons right">add_box</i></a>
+				</div>
+
+			</form>
+
+		</div>
+	</div>
+
+
+	<!-- Adicionando JQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+	<!-- Adicionando Javascript -->
+	<script>
+		$(document).ready(function () {
+
+
+			function limpa_formulário_cep() {
+				// Limpa valores do formulário de cep.
+				$("#rua").val("");
+				$("#bairro").val("");
+				$("#cidade").val("");
+				$("#uf").val("");
+				$("#ibge").val("");
+			}
+
+			//Quando o campo cep perde o foco.
+			$("#cep").blur(function () {
+
+				//Nova variável "cep" somente com dígitos.
+				var cep = $(this).val().replace(/\D/g, '');
+
+				//Verifica se campo cep possui valor informado.
+				if (cep != "") {
+
+					//Expressão regular para validar o CEP.
+					var validacep = /^[0-9]{8}$/;
+
+					//Valida o formato do CEP.
+					if (validacep.test(cep)) {
+
+						//Preenche os campos com "..." enquanto consulta webservice.
+						$("#rua").val("...");
+						$("#bairro").val("...");
+						$("#cidade").val("...");
+						$("#uf").val("...");
+						$("#ibge").val("...");
+
+						//Consulta o webservice viacep.com.br/
+						$.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
+
+							if (!("erro" in dados)) {
+								//Atualiza os campos com os valores da consulta.
+								$("#rua").val(dados.logradouro);
+								$("#bairro").val(dados.bairro);
+								$("#cidade").val(dados.localidade);
+								$("#uf").val(dados.uf);
+								$("#ibge").val(dados.ibge);
+							} //end if.
+							else {
+								//CEP pesquisado não foi encontrado.
+								limpa_formulário_cep();
+								alert("CEP não encontrado.");
+							}
+						});
+					} //end if.
+					else {
+						//cep é inválido.
+						limpa_formulário_cep();
+						alert("Formato de CEP inválido.");
+					}
+				} //end if.
+				else {
+					//cep sem valor, limpa formulário.
+					limpa_formulário_cep();
+				}
+			});
+		});				
+	</script>
+</body>
+
+</html>

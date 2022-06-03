@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head}">
+</head>
+
+<body style="padding-left: 380px; padding-right: 200px;font-family: sans-serif;">
+	<div th:replace="~{layout :: menu}"></div>
+	<div class="col s12" style="background-color: darkcyan;">
+		<h3 style="text-align: center; color: whitesmoke;">Cadastro de Telefones</h3>
+	</div>
+	<div class="col s12 m4 l8" style="padding-left: 10px">
+		<div class="row">
+			<div th:each="m : ${msg}" class="alert">
+				<span class="closebtn" th:text="${m}"></span>
+			</div>
+			<fieldset>
+				<div class="row" style="padding-left: 15px; padding-top: 10px;" th:each="p : ${pessoaobj}">
+					<div class="row">
+						<p style="font-size: 20px;">ID: <span style="font-weight: bold;" th:text="${p.id}"></span></p>
+						<p style="font-size: 20px;">Nome Completo: <span style="font-weight: bold;"
+								th:text="${p.nome} + ' ' + ${p.sobrenome}"></span></p>
+					</div>
+				</div>
+			</fieldset>
+			<br />
+			<fieldset>
+				<legend>Dados Telefone</legend>
+				<div class="row">
+					<form th:action="@{/addfonePessoa/{pessoaid}(pessoaid=${pessoaobj.id})}" method="post"
+						class="col s12" onsubmit="return validarCampos()? true : false">
+						<div class="row">
+							<div class="input-field col s3">
+								<label class="active" for="numero">Número:</label>
+								<input id="numero" name="numero" class="validate">
+							</div>
+
+							<div class="input-field col s3">
+								<label class="active" for="tipo">Tipo:</label>
+								<input id="tipo" name="tipo" class="validate">
+							</div>
+							<div class="input-field col s12">
+								<input type="submit" value="Adicionar" class="waves-effect waves-light btn">
+							</div>
+						</div>
+					</form>
+				</div>
+			</fieldset>
+			<br />
+			<fieldset>
+				<legend>Telefones Cadastrados</legend>
+				<table class="striped">
+					<thead>
+						<tr>
+							<th>Telefone</th>
+							<th>Tipo</th>
+							<th>Excluir</th>
+						</tr>
+					</thead>
+					<tr th:each="fone : ${telefones}">
+						<td th:text="${fone.numero}" />
+						<td th:text="${fone.tipo}" />
+						<td><a th:href="@{/removertelefone/{idtelefone}(idtelefone=${fone.id})}"><i
+									class="material-icons" style="color: red;">close</i></a> </td>
+					</tr>
+				</table>
+		</div>
+	</div>
+	</fieldset>
+
+	<script type="text/javascript">
+		function validarCampos() {
+			numero = document.getElementById('numero').value;
+			tipo = document.getElementById('tipo').value;
+
+			if (numero === '') {
+				alert('Numero deve ser informado');
+				return false;
+			}
+			else if (tipo === '') {
+				alert('Tipo deve ser informado');
+				return false;
+			}
+
+			return true;
+		}
+	</script>
+</body>
+
+</html>
